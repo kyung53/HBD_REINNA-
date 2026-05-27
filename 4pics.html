@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- RESPONSIVE -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>4 Pics One Word</title>
+
+  <!-- ARCADE FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      min-height:100vh;
+
+      display:flex;
+      justify-content:center;
+      align-items:center;
+
+      padding:4vw;
+
+      overflow-x:hidden;
+
+      font-family:'VT323', monospace;
+
+      color:white;
+
+      background:
+      radial-gradient(circle at top, #2563eb 0%, #0f172a 55%, #020617 100%);
+
+      position:relative;
+    }
+
+    /* RETRO GRID */
+    body::before{
+      content:"";
+
+      position:fixed;
+      inset:0;
+
+      background-image:
+      linear-gradient(rgba(96,165,250,0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(96,165,250,0.12) 1px, transparent 1px);
+
+      background-size:40px 40px;
+
+      z-index:0;
+    }
+
+    .container{
+
+      position:relative;
+      z-index:1;
+
+      width:min(95vw, 900px);
+
+      background:#071329;
+
+      border:4px solid #60a5fa;
+
+      padding:min(5vw, 40px);
+
+      text-align:center;
+
+      box-shadow:
+      0 0 12px #60a5fa,
+      0 0 35px rgba(96,165,250,0.7);
+    }
+
+    h1{
+      font-size:clamp(2.5rem, 6vw, 5rem);
+
+      color:#93c5fd;
+
+      margin-bottom:10px;
+
+      text-shadow:
+      4px 4px #1d4ed8,
+      0 0 18px rgba(147,197,253,0.9);
+    }
+
+    .level{
+      font-size:clamp(1.2rem, 2vw, 1.8rem);
+
+      margin-bottom:30px;
+
+      color:#dbeafe;
+    }
+
+    .images{
+
+      display:grid;
+
+      grid-template-columns:repeat(2, 1fr);
+
+      gap:15px;
+
+      margin-bottom:30px;
+    }
+
+    .img-box{
+
+      aspect-ratio:1/1;
+
+      border:3px solid #3b82f6;
+
+      overflow:hidden;
+
+      background:#0f172a;
+
+      box-shadow:0 0 10px rgba(59,130,246,0.5);
+    }
+
+    .img-box img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    input{
+
+      width:100%;
+
+      padding:15px;
+
+      border:none;
+      outline:none;
+
+      text-align:center;
+
+      font-size:clamp(1.5rem, 3vw, 2rem);
+
+      font-family:'VT323', monospace;
+
+      background:#0f172a;
+
+      color:white;
+
+      border:3px solid #60a5fa;
+
+      margin-bottom:20px;
+    }
+
+    button{
+
+      padding:14px 35px;
+
+      border:none;
+
+      cursor:pointer;
+
+      background:#2563eb;
+
+      color:white;
+
+      border:3px solid #93c5fd;
+
+      font-family:'VT323', monospace;
+
+      font-size:clamp(1.3rem, 2vw, 1.8rem);
+
+      transition:0.25s;
+    }
+
+    button:hover{
+      transform:scale(1.05);
+
+      background:#3b82f6;
+    }
+
+    .message{
+
+      margin-top:20px;
+
+      font-size:clamp(1.3rem, 2vw, 1.8rem);
+
+      color:#93c5fd;
+
+      min-height:30px;
+    }
+
+    .circle{
+      position:fixed;
+
+      border-radius:50%;
+
+      filter:blur(80px);
+
+      opacity:0.25;
+
+      z-index:0;
+
+      animation:float 8s infinite ease-in-out;
+    }
+
+    .circle1{
+      width:22vw;
+      height:22vw;
+
+      background:#2563eb;
+
+      top:-8vw;
+      left:-8vw;
+    }
+
+    .circle2{
+      width:26vw;
+      height:26vw;
+
+      background:#60a5fa;
+
+      bottom:-10vw;
+      right:-10vw;
+
+      animation-delay:2s;
+    }
+
+    @keyframes float{
+
+      0%,100%{
+        transform:translateY(0px);
+      }
+
+      50%{
+        transform:translateY(20px);
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- BACKGROUND MUSIC -->
+  <!-- Replace music.mp3 with your own file -->
+  <audio id="bgMusic" autoplay loop>
+    <source src="BG.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="circle circle1"></div>
+  <div class="circle circle2"></div>
+
+  <div class="container">
+
+    <h1>4 PICS 1 WORD</h1>
+
+    <div class="level" id="levelText">
+      LEVEL 1 / 6 
+    </div>
+
+    <div class="images" id="imagesContainer">
+
+      <!-- Images inserted by JS -->
+
+    </div>
+
+    <input
+      type="text"
+      id="answerInput"
+      placeholder="TYPE YOUR ANSWER"
+      autocomplete="off"
+    >
+
+    <button onclick="checkAnswer()">
+      SUBMIT
+    </button>
+
+    <div class="message" id="message"></div>
+
+  </div>
+
+  <script>
+
+    const levels = [
+
+      {
+        answer:"SCHOOL",
+        images:[
+          "sc1.jpg",
+          "sc2.jpg",
+          "sc3.jpg",
+          "sc4.jpg"
+        ]
+      },
+
+      {
+        answer:"BLUE",
+        images:[
+          "b1.jpg",
+          "b2.jpg",
+          "b3.jpg",
+          "b4.jpg"
+        ]
+      },
+
+      {
+        answer:"ZHANG LINGHE",
+        images:[
+          "z1.jpg",
+          "z2.jpg",
+          "z3.jpg",
+          "z4.jpg"
+        ]
+      },
+
+      {
+        answer:"NIKI",
+        images:[
+          "n1.jpg",
+          "n2.jpg",
+          "n3.jpg",
+          "n4.jpg"
+        ]
+      },
+
+      {
+        answer:"FRIENDSHIP",
+        images:[
+          "f1.jpg",
+          "f2.jpg",
+          "f3.jpg",
+          "f4.jpg"
+        ]
+      },
+
+      {
+        answer:"CUTIES",
+        images:[
+          "c1.jpg",
+          "c2.jpg",
+          "c3.jpg",
+          "c4.jpg"
+        ]
+      }
+    ];
+
+    let currentLevel = 0;
+
+    const imagesContainer = document.getElementById("imagesContainer");
+    const answerInput = document.getElementById("answerInput");
+    const message = document.getElementById("message");
+    const levelText = document.getElementById("levelText");
+
+    function loadLevel(){
+
+      imagesContainer.innerHTML = "";
+
+      const level = levels[currentLevel];
+
+      levelText.innerText =
+      `LEVEL ${currentLevel + 1} / ${levels.length}`;
+
+      level.images.forEach(img => {
+
+        const box = document.createElement("div");
+        box.classList.add("img-box");
+
+        box.innerHTML = `
+          <img src="${img}">
+        `;
+
+        imagesContainer.appendChild(box);
+
+      });
+
+      answerInput.value = "";
+      message.innerText = "";
+    }
+
+    function checkAnswer(){
+
+      const userAnswer =
+      answerInput.value.trim().toUpperCase();
+
+      const correctAnswer =
+      levels[currentLevel].answer.toUpperCase();
+
+      if(userAnswer === correctAnswer){
+
+        message.innerText = "CORRECT!";
+
+        currentLevel++;
+
+        if(currentLevel < levels.length){
+
+          setTimeout(loadLevel, 1200);
+
+        }else{
+
+          setTimeout(() => {
+
+            alert("YOU FINISHED THE GAME!");
+
+            window.location.href = "gsong.html";
+
+          }, 1200);
+        }
+
+      }else{
+
+        message.innerText = "TRY AGAIN!";
+      }
+    }
+
+    loadLevel();
+
+    /* MOBILE AUTOPLAY FIX */
+    document.addEventListener("click", () => {
+
+      document.getElementById("bgMusic").play();
+
+    }, { once:true });
+
+  </script>
+
+</body>
+</html>

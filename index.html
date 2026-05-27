@@ -1,0 +1,273 @@
+<!-- FILE NAME: index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- IMPORTANT FOR RESPONSIVE DESIGN -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>WELCOME TO THE GAME</title>
+
+  <!-- Arcade Font -->
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    html{
+      width:100%;
+      height:100%;
+    }
+
+    body{
+      width:100%;
+      min-height:100vh;
+
+      display:flex;
+      justify-content:center;
+      align-items:center;
+
+      padding:4vw;
+
+      overflow-x:hidden;
+
+      font-family:'VT323', monospace;
+      color:white;
+
+      position:relative;
+
+      background:
+      radial-gradient(circle at top, #2563eb 0%, #0f172a 55%, #020617 100%);
+    }
+
+    /* RETRO GRID */
+    body::before{
+      content:"";
+
+      position:fixed;
+      inset:0;
+
+      background-image:
+      linear-gradient(rgba(96,165,250,0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(96,165,250,0.12) 1px, transparent 1px);
+
+      background-size:40px 40px;
+
+      z-index:0;
+    }
+
+    .container{
+      position:relative;
+      z-index:1;
+
+      width:min(90vw, 850px);
+
+      padding:min(5vw, 45px);
+
+      border:4px solid #60a5fa;
+
+      background:#071329;
+
+      text-align:center;
+
+      box-shadow:
+      0 0 12px #60a5fa,
+      0 0 35px rgba(96,165,250,0.7);
+    }
+
+    h1{
+
+      font-size:clamp(2.3rem, 7vw, 5.5rem);
+
+      color:#93c5fd;
+
+      line-height:1.1;
+      letter-spacing:0.2vw;
+
+      margin-bottom:4vh;
+
+      text-shadow:
+      4px 4px #1d4ed8,
+      0 0 18px rgba(147,197,253,0.9);
+
+      word-wrap:break-word;
+    }
+
+    .subtitle{
+
+      font-size:clamp(1.2rem, 3vw, 2.2rem);
+
+      line-height:1.5;
+
+      color:#dbeafe;
+
+      margin-bottom:5vh;
+    }
+
+    .highlight{
+      color:#60a5fa;
+    }
+
+    .start-btn{
+
+      padding:
+      clamp(12px, 1.8vw, 18px)
+      clamp(28px, 4vw, 45px);
+
+      border:none;
+      outline:none;
+
+      cursor:pointer;
+
+      font-family:'VT323', monospace;
+
+      font-size:clamp(1.5rem, 3vw, 2.1rem);
+
+      letter-spacing:0.15vw;
+
+      color:white;
+
+      background:#2563eb;
+
+      border:4px solid #93c5fd;
+
+      transition:0.25s;
+
+      box-shadow:
+      0 0 15px rgba(96,165,250,0.8);
+
+      max-width:100%;
+    }
+
+    .start-btn:hover{
+
+      transform:scale(1.05);
+
+      background:#3b82f6;
+
+      box-shadow:
+      0 0 28px rgba(147,197,253,1);
+    }
+
+    .start-btn:active{
+      transform:scale(0.98);
+    }
+
+    /* GLOW EFFECTS */
+
+    .circle{
+      position:fixed;
+
+      border-radius:50%;
+
+      filter:blur(80px);
+
+      opacity:0.25;
+
+      z-index:0;
+
+      animation:float 8s infinite ease-in-out;
+    }
+
+    .circle1{
+
+      width:22vw;
+      height:22vw;
+
+      min-width:140px;
+      min-height:140px;
+
+      max-width:280px;
+      max-height:280px;
+
+      background:#2563eb;
+
+      top:-8vw;
+      left:-8vw;
+    }
+
+    .circle2{
+
+      width:26vw;
+      height:26vw;
+
+      min-width:180px;
+      min-height:180px;
+
+      max-width:320px;
+      max-height:320px;
+
+      background:#60a5fa;
+
+      bottom:-10vw;
+      right:-10vw;
+
+      animation-delay:2s;
+    }
+
+    @keyframes float{
+
+      0%,100%{
+        transform:translateY(0px);
+      }
+
+      50%{
+        transform:translateY(20px);
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="circle circle1"></div>
+  <div class="circle circle2"></div>
+
+  <div class="container">
+
+    <h1>
+      WELCOME TO THE GAME!
+    </h1>
+
+    <div class="subtitle">
+
+      PLAY AND CLAIM YOUR
+      <span class="highlight">REWARD</span>
+
+      <br><br>
+
+      THERE WILL BE A TOTAL OF
+      <span class="highlight">3 GAMES</span>
+      TO PLAY.
+
+      <br><br>
+
+      ARE YOU READY?
+
+    </div>
+
+    <button class="start-btn" onclick="startGame()">
+      START GAME
+    </button>
+
+  </div>
+
+  <script>
+
+    function startGame(){
+
+      window.location.href = "4pics.html";
+
+    }
+
+  </script>
+
+</body>
+</html>
